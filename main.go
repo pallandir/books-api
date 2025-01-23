@@ -2,17 +2,19 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"github.com/pallandir/books-api/handlers"
 )
 
+func apiRouter() *gin.Engine {
+	router := gin.Default()
+	router.GET("/books", handlers.GetBooks)
+	router.GET("/books/:isbn", handlers.GetBookByISBN)
+	router.POST("/books", handlers.PostBook)
+
+	return router
+}
+
 func main() {
-	router := gin.New()
-
-	router.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-
-	router.Run()
+	router := apiRouter()
+	router.Run(":8080")
 }
