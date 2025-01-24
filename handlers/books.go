@@ -31,5 +31,17 @@ func GetBookByISBN(context *gin.Context) {
 			return
 		}
 	}
-	context.JSON(http.StatusNotFound, gin.H{"message": "book not found"})
+	context.JSON(http.StatusNotFound, gin.H{"message": "Book not found"})
+}
+
+func DeleteBookByISBN(context *gin.Context) {
+	isbn := context.Param("isbn")
+	for index, book := range database.Books {
+		if book.ISBN == isbn {
+			database.Books = append(database.Books[:index], database.Books[index+1:]...)
+			context.JSON(http.StatusOK, database.Books)
+			return
+		}
+	}
+	context.JSON(http.StatusNotFound, gin.H{"message": "No book to delete found"})
 }
