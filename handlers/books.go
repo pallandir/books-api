@@ -45,3 +45,27 @@ func DeleteBookByISBN(context *gin.Context) {
 	}
 	context.JSON(http.StatusNotFound, gin.H{"message": "No book to delete found"})
 }
+
+func UpdateBooksByISBN(context *gin.Context) {
+	isbn := context.Param("isbn")
+	var updatedBook models.Book
+	//BindJSON needs the adress of the struct to directly modify it instead of working on a copy
+	if err := context.BindJSON(&updatedBook); err != nil {
+		return
+	}
+
+	for index, book := range database.Books {
+		if book.ISBN == isbn {
+			if updatedBook.Author != "" {
+				database.Books[index].Author = updatedBook.Author
+			}
+			if updatedBook.Title != "" {
+				database.Books[index].Title = updatedBook.Title
+			}
+			context.JSON(http.StatusCreated, database.Books[index])
+			return
+		}
+	}
+	context.JSON(http.StatusNotFound, gin.H{"message": "No book to update found"})
+
+}

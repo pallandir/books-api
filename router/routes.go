@@ -11,6 +11,6 @@ func ApiRouter() *gin.Engine {
 	router.GET("/books/:isbn", handlers.GetBookByISBN)
 	router.POST("/books", handlers.PostBook)
 	router.DELETE("/books/:isbn", handlers.DeleteBookByISBN)
-
+	router.PUT("/books/:isbn", handlers.UpdateBooksByISBN)
 	return router
 }
