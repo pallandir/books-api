@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/pallandir/books-api/database"
 	"github.com/pallandir/books-api/models"
